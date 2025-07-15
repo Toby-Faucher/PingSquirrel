@@ -5,6 +5,7 @@ edition = "2024"
 
 [dependencies]
 phf = "0.12.1"
+tokio = { version = "1.46.1", features = ["full"] }
 
 [build-dependencies]
 phf_codegen = "0.12.1" 

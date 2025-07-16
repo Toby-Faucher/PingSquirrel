@@ -5,7 +5,6 @@ edition = "2024"
 
 [dependencies]
 phf = "0.12.1"
-tokio = { version = "1.46.1", features = ["full"] }
 
 [build-dependencies]
 phf_codegen = "0.12.1"
@@ -13,6 +12,7 @@ reqwest = { version = "0.12", features = ["blocking"] }
 
 # Release profile optimizations
 [profile.release]
+debug = true
 opt-level = 3     # Maximum optimization
 lto = true        # Link-time optimization
 codegen-units = 1 # Better optimization, slower compile
@@ -28,3 +28,13 @@ codegen-units = 1
 panic = "abort"
 strip = true
 overflow-checks = false # Disable overflow checks for max speed
+
+# Ultra-small binary profile
+[profile.min-size]
+inherits = "release"
+opt-level = "z"         # Optimize for size
+lto = "fat"
+codegen-units = 1
+panic = "abort"
+strip = true
+overflow-checks = false

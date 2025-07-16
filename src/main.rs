@@ -7,7 +7,7 @@ fn lookup_vendor(mac: &str) -> Option<(&str, &str, &str)> {
 }
 
 fn main() {
-    if let Some((name, address, country)) = lookup_vendor("CC:BE:59:33:25:55") {
+    if let Some((name, address, country)) = lookup_vendor("6C:63:9C:B6:92:09") {
         println!(
             "Vendor: {}, Address: {}, Country: {}",
             name, address, country

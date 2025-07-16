@@ -149,7 +149,7 @@ fn generate_phm(data: &HashMap<String, MacVendor>) -> Result<(), Box<dyn std::er
     for (mac, vendor) in data {
         let value = format!(
             "({:?}, {:?}, {:?})",
-            vendor.company_name, vendor.country, vendor.location
+            vendor.company_name, vendor.location, vendor.country
         );
 
         map.entry(mac, value);

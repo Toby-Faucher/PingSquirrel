@@ -52,13 +52,14 @@ fn extract_address(line: &str) -> Option<&str> {
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("cargo:rerun-if-changed=build.rs");
+    println!("cargo:rerun-if-changed=Cargo.lock");
     println!("cargo:rerun-if-env-changed=DATA_URL");
 
     // We get the OUI's from here
     let url = env::var("DATA_URL")
         .unwrap_or_else(|_| "https://standards-oui.ieee.org/oui/oui.txt".to_string());
 
-    let content = fetch_content(&url)?;
+    let content = fetch_content(&url, false)?;
 
     let data = parse_content(&content)?;
 
@@ -67,12 +68,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-fn fetch_content(url: &str) -> Result<String, Box<dyn std::error::Error>> {
+fn fetch_content(url: &str, force: bool) -> Result<String, Box<dyn std::error::Error>> {
     let out_dir = env::var("OUT_DIR")?;
     let cache_path = Path::new(&out_dir).join("oui_cache.txt");
     let cache_duration = Duration::from_secs(24 * 60 * 60); // 24 hours
 
-    if cache_path.exists() {
+    if !force && cache_path.exists() {
         if let Ok(metadata) = cache_path.metadata() {
             if let Ok(modified_time) = metadata.modified() {
                 if SystemTime::now().duration_since(modified_time)? < cache_duration {
